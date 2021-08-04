@@ -12,25 +12,34 @@ public class FareCalculatorService {
 
 		double inHour = ticket.getInTime().getTime();
 		double outHour = ticket.getOutTime().getTime();
+		boolean isRegularUser = ticket.isRecurrentUser();
 
-		// TODO: Some tests are failing here. Need to check if this logic is correct
-		// Correction: variables inHour and outHour are in ms, change duration type in
-		// double and calculate it in hour
 		double duration = (outHour - inHour) / 1000 / 60 / 60;
-		// Rounded duration value in 2 decimals
 		duration = Math.round(duration * 100.0) / 100.0;
 
-		switch (ticket.getParkingSpot().getParkingType()) {
-		case CAR: {
-			ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-			break;
-		}
-		case BIKE: {
-			ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unkown Parking Type");
+		if (duration > 0.5) { // parking is due only for more than 30 minutes/half an hour
+			switch (ticket.getParkingSpot().getParkingType()) {
+			case CAR: {
+				if (isRegularUser) { // if user is regular he gets a discount
+					double price = (duration * Fare.CAR_RATE_PER_HOUR) * (1 - (Fare.CAR_RECURRENT_DISCOUNT / 100));
+					ticket.setPrice(Math.round(price * 100.0) / 100.0);
+				} else {
+					ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+				}
+				break;
+			}
+			case BIKE: {
+				if (isRegularUser) { // if user is regular he gets a discount
+					double price = (duration * Fare.BIKE_RATE_PER_HOUR) * (1 - (Fare.BIKE_RECURRENT_DISCOUNT / 100));
+					ticket.setPrice(Math.round(price * 100.0) / 100.0);
+				} else {
+					ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+				}
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unkown Parking Type");
+			}
 		}
 	}
 }
