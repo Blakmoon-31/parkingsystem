@@ -24,7 +24,8 @@ public class FareCalculatorService {
 					double price = (duration * Fare.CAR_RATE_PER_HOUR) * (1 - (Fare.CAR_RECURRENT_DISCOUNT / 100));
 					ticket.setPrice(Math.round(price * 100.0) / 100.0);
 				} else {
-					ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+					double price = (duration * Fare.CAR_RATE_PER_HOUR);
+					ticket.setPrice(Math.round(price * 100.0) / 100.0);
 				}
 				break;
 			}
@@ -33,7 +34,8 @@ public class FareCalculatorService {
 					double price = (duration * Fare.BIKE_RATE_PER_HOUR) * (1 - (Fare.BIKE_RECURRENT_DISCOUNT / 100));
 					ticket.setPrice(Math.round(price * 100.0) / 100.0);
 				} else {
-					ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+					double price = (duration * Fare.BIKE_RATE_PER_HOUR);
+					ticket.setPrice(Math.round(price * 100.0) / 100.0);
 				}
 				break;
 			}

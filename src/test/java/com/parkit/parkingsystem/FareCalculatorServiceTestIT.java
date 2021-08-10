@@ -18,7 +18,7 @@ import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
 
 @ExtendWith(MockitoExtension.class)
-public class FareCalculatorServiceTest {
+public class FareCalculatorServiceTestIT {
 
 	private static FareCalculatorService fareCalculatorService;
 	private Ticket ticket;
@@ -99,7 +99,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
+		assertEquals((Math.round((0.75 * Fare.BIKE_RATE_PER_HOUR) * 100.0) / 100.0), ticket.getPrice());
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.75 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+		assertEquals((Math.round((0.75 * Fare.CAR_RATE_PER_HOUR) * 100.0) / 100.0), ticket.getPrice());
 	}
 
 	@Test
@@ -129,7 +129,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((24 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+		assertEquals((Math.round((24 * Fare.CAR_RATE_PER_HOUR) * 100.0) / 100.0), ticket.getPrice());
 	}
 
 	@Test
@@ -175,7 +175,9 @@ public class FareCalculatorServiceTest {
 		ticket.setParkingSpot(parkingSpot);
 		ticket.setRecurrentUser(true);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((1.42), ticket.getPrice());
+		assertEquals(
+				(Math.round((1 * Fare.CAR_RATE_PER_HOUR) * (1 - (Fare.CAR_RECURRENT_DISCOUNT / 100)) * 100.0) / 100.0),
+				ticket.getPrice());
 	}
 
 	@Test
@@ -191,7 +193,7 @@ public class FareCalculatorServiceTest {
 		ticket.setParkingSpot(parkingSpot);
 		ticket.setRecurrentUser(false);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((1.5), ticket.getPrice());
+		assertEquals((Math.round((1 * Fare.CAR_RATE_PER_HOUR) * 100.0) / 100.0), ticket.getPrice());
 	}
 
 	@Test
@@ -207,7 +209,8 @@ public class FareCalculatorServiceTest {
 		ticket.setParkingSpot(parkingSpot);
 		ticket.setRecurrentUser(true);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.95), ticket.getPrice());
+		assertEquals((Math.round((1 * Fare.BIKE_RATE_PER_HOUR) * (1 - (Fare.BIKE_RECURRENT_DISCOUNT / 100)) * 100.0)
+				/ 100.0), ticket.getPrice());
 	}
 
 	@Test
@@ -223,6 +226,6 @@ public class FareCalculatorServiceTest {
 		ticket.setParkingSpot(parkingSpot);
 		ticket.setRecurrentUser(false);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((1), ticket.getPrice());
+		assertEquals((Math.round((1 * Fare.BIKE_RATE_PER_HOUR) * 100.0) / 100.0), ticket.getPrice());
 	}
 }

@@ -19,7 +19,7 @@ import java.util.Date;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ParkingServiceTest {
+public class ParkingServiceTestIT {
 
     private static ParkingService parkingService;
 

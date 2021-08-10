@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.parkit.parkingsystem.config.DataBaseConfig;
 
-public class DataBaseTestConfig extends DataBaseConfig {
+public class DataBaseTestConfigIT extends DataBaseConfig {
 
 	private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
 
