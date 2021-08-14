@@ -107,7 +107,7 @@ public class TicketDAO {
 
 		try {
 			con = dataBaseConfig.getConnection();
-			ps = con.prepareStatement(DBConstants.GET_REGULAR_USER);
+			ps = con.prepareStatement(DBConstants.GET_RECURRENT_USER);
 
 			ps.setString(1, vehicleRegNumber);
 			rs = ps.executeQuery();
